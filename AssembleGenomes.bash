@@ -27,13 +27,26 @@ do
   #Annotate contigs
   augustus --species=coprinus Assemblies/${species}.fa > Annotations/${species}.gff
   getAnnoFasta.pl Annotations/${species}.gff
-  exonerate --model protein2genome \
-    --bestn 1  \
-    --verbose 0 \
-    --showalignment no \
-    --showvulgar no\
-     --ryo ">%ti %td\n%tcs\n" \
-     Reference_seqs/Copci_all.fa Annotations/${species}.aa
-     > exonerate_results/${species}_exonerate/
+
+  #Identify homologs
+  makeblastdb -dbtype prot -in Annotations/${species}.aa -parse_seqids
+  for query in `ls Copci1`
+  do
+    exonerate --model protein2genome \
+      --bestn 1  \
+      --verbose 0 \
+      --showalignment no \
+      --showvulgar no\
+      --ryo ">%ti %td\n%tcs\n" \
+      Copci1/$query Annotations/${species}.aa
+      > exonerate_results/${species}_exonerate/${species}_${query}
+    blastdbcmd -db Copci_all.fa \
+      -entry_batch <(blastp \
+        -query $query \
+        -db Annotations/${species}.aa \
+        -outfmt '6 sacc' \
+        -max_target_seqs 1) \
+        >augustus_results/${species}_augustis/${species}_${query}
+  done
 done
 
