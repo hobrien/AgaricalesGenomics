@@ -1,27 +1,8 @@
 #all species: Bae_myo Cal_gam Cla_fum Cli_gib Cli_neb Ent_cly Gym_jun Hyg_con Inocyb Mac_cum Meg_pla Mycena Pte_sub Tubaria
-if ! test -f 'all_seqs.fa'
-then
-  for file in `ls JGI_210genes_renamed_by_Copci1_gene`
-  do
-    cat JGI_210genes_renamed_by_Copci1_gene/$file >> all_seqs.fa
-  done
-fi
-if ! test -d 'Copci1'
-then
-  mkdir 'Copci1'
-fi
-if ! test -d 'Alignments'
-then
-  mkdir 'Alignments'
-fi
-if ! test -d 'Alignments/Exonerate'
-then
-  mkdir 'Alignments/Exonerate'
-fi
-if ! test -d 'Alignments/Augustus'
-then
-  mkdir 'Alignments/Augustus'
-fi
+if ! test -d 'New_sequences'; then mkdir 'New_sequences'; fi
+if ! test -d 'Alignments'; then  mkdir 'Alignments'; fi
+if ! test -d 'Alignments/Exonerate'; then mkdir 'Alignments/Exonerate'; fi
+if ! test -d 'Alignments/Augustus'; then mkdir 'Alignments/Augustus'; fi
 if test -d 'blastp_augustus_results/Inocybeae_split'
 then
   mv blastp_augustus_results/Inocybeae_split/ blastp_augustus_results/Inocyb_split/
@@ -33,22 +14,16 @@ fi
   
 for species in $@
 do
-  `./RenameFiles.py blastp_augustus_results/${species}_split`
-  `./RenameFiles.py exonerate_results/${species}_exonerate`  
+  #`./RenameFiles.py blastp_augustus_results/${species}_split`
+  #`./RenameFiles.py exonerate_results/${species}_exonerate`  
   `echo "gene, Augustus, Exonerate" > ${species}_scores.txt`
   exonerate_better=0
   augustus_better=0
   identical_score=0
-  for file in `ls JGI_210genes_renamed_by_Copci1_gene`
-  #for file in `ls Test`
+  for file in `ls Copci1`
   do
     gene=$(echo $file |cut -d'_' -f2)
     gene=$(echo $gene |cut -d'.' -f1)
-    if ! test -f "Copci1/Copci1_${gene}.fa"
-    then
-      echo "GetSeq.pl all_seqs.fa 'jgi|Copci1|$gene' >Copci1/Copci1_${gene}.fa"
-      `GetSeq.pl all_seqs.fa "jgi|Copci1|${gene}" >Copci1/Copci1_${gene}.fa`
-    fi
     #Align Exonerate sequence and extract the score (set score = 0 if no sequence)
     #If duplicate sequences are present, only consider the first
     exonerate_file=$(ls exonerate_results/${species}_exonerate |grep ${species}_Copci1_${gene}[_.] |head -1)
@@ -66,9 +41,10 @@ do
       exonerate_score=0
     fi
     #Align Augustus sequence and extract the score (set score = 0 if no sequence)
-    augustus_file=blastp_augustus_results/${species}_split/${species}_Copci1_${gene}.fa
+    augustus_file=augustus_results/${species}_split/${species}_Copci1_${gene}.fa
     if test -f $augustus_file
     then
+      echo $augustus_file
       seqname=$(echo $augustus_file |cut -d'.' -f1 |cut -d'/' -f 3)  
       if ! test -f "Alignments/Augustus/$seqname.needle"
       then 
