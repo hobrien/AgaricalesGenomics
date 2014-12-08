@@ -36,7 +36,7 @@ do
       > exonerate_results/${species}_exonerate/${species}_${query}
     blastdbcmd -db Annotations/${species}.aa \
       -entry_batch <(blastp \
-        -query $query \
+        -query Copci1/$query \
         -db Annotations/${species}.aa \
         -outfmt '6 sacc' \
         -max_target_seqs 1) \
