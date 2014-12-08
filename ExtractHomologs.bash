@@ -30,10 +30,11 @@ do
       --verbose 0 \
       --showalignment no \
       --showvulgar no\
-      --ryo ">%ti %td\n%tcs\n" \
-      Copci1/$query Assemblies/${species}.fa
+      --ryo ">${species}_%qi\n%tcs\n" \
+      Copci1/$query Assemblies/${species}.fa \
+      | perl ../translate.pl \
       > exonerate_results/${species}_exonerate/${species}_${query}
-    blastdbcmd -db Copci_all.fa \
+    blastdbcmd -db Annotations/${species}.aa \
       -entry_batch <(blastp \
         -query $query \
         -db Annotations/${species}.aa \
