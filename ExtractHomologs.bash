@@ -12,10 +12,11 @@ do
   #  > /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Annotations/${species}.gff; \
   #  getAnnoFasta.pl /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Annotations/${species}.gff'"
   #
-  
-  augustus --species=coprinus Assemblies/${species}.fa > Annotations/${species}.gff
-  getAnnoFasta.pl Annotations/${species}.gff
-
+  if ! test -f Annotations/${species}.gff
+  then
+    augustus --species=coprinus Assemblies/${species}.fa > Annotations/${species}.gff
+    getAnnoFasta.pl Annotations/${species}.gff
+  fi
   #Identify homologs
   makeblastdb -dbtype prot -in Annotations/${species}.aa -parse_seqids
   for query in `ls Copci1`
