@@ -11,6 +11,8 @@ Prerequisites
 
 -Augustus (http://augustus.gobics.de)
 
+-BioPerl (http://www.bioperl.org)
+
 -Biopython (http://biopython.org)
 
 -Blast+ (http://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastDocs&DOC_TYPE=Download)
@@ -31,15 +33,19 @@ Prerequisites
 
 Scripts
 -------
--AssembleGenomes.bash (AbySS assembly, Augustus gene prediction, Exonerate)
+-AssembleGenomes.bash (AbySS assembly and trimming where necessary)
 
 -Blobology.bash (maps reads to contigs, then plots GC vs. coverage and colour codes by blast hit)
 
 -CountGaps.py (Calculates the percentage of gap characters for each sequence in an alignment)
 
+-ExtractHomologs.bash (Augustus gene prediction plus blastp, Exonerate)
+
 -ExtractSeqs.py (Extracts sequences belonging to the specified species from a datafile and writes each to a separate file)
 
 -RunNeedle.bash (aligns Augustus/Exonerate homologs to references and selects highest scoring homolog)
+
+-translate.pl (translate DNA sequences into AA sequences)
 
 Datasets
 --------
