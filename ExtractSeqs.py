@@ -27,4 +27,5 @@ for infile in glob(infolder + '/*.fa'):
   for seq_record in SeqIO.parse(infile, "fasta"):
     if species in seq_record.id:
       outfile = os.path.join(outfolder, '_'.join((species, seq_record.id.split('|')[2])) + '.fa')
+      seq_record.seq = seq_record.seq.ungap(gap='-')
       SeqIO.write(seq_record, outfile, 'fasta')
