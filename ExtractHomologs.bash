@@ -19,6 +19,10 @@ do
   fi
   #Identify homologs
   makeblastdb -dbtype prot -in Annotations/${species}.aa -parse_seqids
+  if ! test -d exonerate_results; then mkdir exonerate_results; fi
+  if ! test -d exonerate_results/${species}_exonerate; then mkdir exonerate_results/${species}_exonerate; fi
+  if ! test -d augustus_results; then mkdir augustus_results; fi
+  if ! test -d augustus_results/${species}_split; then mkdir augustus_results/${species}_split; fi
   for query in `ls Copci1`
   do
     exonerate --model protein2genome \
