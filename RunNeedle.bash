@@ -1,5 +1,6 @@
 #all species: Bae_myo Cal_gam Cla_fum Cli_gib Cli_neb Ent_cly Gym_jun Hyg_con Inocyb Mac_cum Meg_pla Mycena Pte_sub Tubaria
-if ! test -d 'New_sequences'; then mkdir 'New_sequences'; fi
+if ! test -d 'best_sequences'; then mkdir 'best_sequences'; fi
+if ! test -d 'best_sequences/${species}'; then mkdir 'best_sequences/${species}'; fi
 if ! test -d 'Alignments'; then  mkdir 'Alignments'; fi
 if ! test -d 'Alignments/Exonerate'; then mkdir 'Alignments/Exonerate'; fi
 if ! test -d 'Alignments/Augustus'; then mkdir 'Alignments/Augustus'; fi
@@ -59,15 +60,15 @@ do
     if [ "$(echo $augustus_score '>' $exonerate_score | bc -l)" -eq 1 ]
     then
       augustus_better=$(echo $augustus_better + 1 |bc)
-      cat $augustus_file >> New_sequences/$file
+      cat $augustus_file > best_sequences/${species}/$file
     elif [ "$(echo $augustus_score '<' $exonerate_score | bc -l)" -eq 1 ]
     then
       exonerate_better=$(echo $exonerate_better + 1 |bc)
-      cat $exonerate_file >> New_sequences/$file
+      cat $exonerate_file > best_sequences/${species}/$file
     elif test -f $augustus_file
     then
       identical_score=$(echo $identical_score + 1 |bc)
-      cat $augustus_file >> New_sequences/$file
+      cat $augustus_file > best_sequences/${species}/$file
     else
       echo "${species}_Copci1$gene: no homolog"
     fi
