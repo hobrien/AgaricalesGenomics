@@ -26,16 +26,17 @@ do
   for query in `ls Copci1`
   do
     gene=(echo $query | cut -d. -f 1)
+    echo '>kew|${species}|${gene}' > exonerate_results/${species}_exonerate/${species}_${query}
     exonerate --model protein2genome \
       --bestn 1  \
       --verbose 0 \
       --showalignment no \
       --showvulgar no\
-      --ryo ">${species}_%qi\n%tcs\n" \
+      --ryo "%tcs\n" \
       Copci1/$query Assemblies/${species}.fa \
       | perl ../translate.pl \
       > exonerate_results/${species}_exonerate/${species}_${query}
-    echo '>${species}_jgi|${gene}' augustus_results/${species}_split/${species}_${query}
+    echo '>kew|${species}|${gene}' > augustus_results/${species}_split/${species}_${query}
     blastdbcmd -db Annotations/${species}.aa \
       -outfmt %s
       -entry_batch <(blastp \
