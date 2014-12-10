@@ -10,7 +10,7 @@ do
   #add new seqs
   for species in `ls Analyses/best_sequences`
     do
-      cat Analyses/best_sequences/$species/${gene}.fa >> Analyses/all_seqs/${gene}
+      cat Analyses/best_sequences/$species/${gene} >> Analyses/all_seqs/${gene}
     done
   #align seqs and write output to Analyses/Alignments/Mafft
   linsi Analyses/all_seqs/${gene} > Analyses/Alignments/Mafft/${gene}
