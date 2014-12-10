@@ -1,6 +1,5 @@
 #all species: Bae_myo Cal_gam Cla_fum Cli_gib Cli_neb Ent_cly Gym_jun Hyg_con Inocyb Mac_cum Meg_pla Mycena Pte_sub Tubaria
 if ! test -d 'best_sequences'; then mkdir 'best_sequences'; fi
-if ! test -d 'best_sequences/${species}'; then mkdir 'best_sequences/${species}'; fi
 if ! test -d 'Alignments'; then  mkdir 'Alignments'; fi
 if ! test -d 'Alignments/Exonerate'; then mkdir 'Alignments/Exonerate'; fi
 if ! test -d 'Alignments/Augustus'; then mkdir 'Alignments/Augustus'; fi
@@ -15,6 +14,7 @@ fi
   
 for species in $@
 do
+  if ! test -d 'best_sequences/$species'; then mkdir best_sequences/$species; fi
   #`./RenameFiles.py blastp_augustus_results/${species}_split`
   #`./RenameFiles.py exonerate_results/${species}_exonerate`  
   `echo "gene, Augustus, Exonerate" > ${species}_scores.txt`
