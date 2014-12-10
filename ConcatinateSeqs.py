@@ -46,7 +46,10 @@ def get_species(record):
     e.g. "jgi|Copci|24" -> "Copci"
     """
     parts = record.id.split("|")
-    assert len(parts) == 3 and parts[0] == "jgi" or parts[2] == "kew"
+    try:
+      assert len(parts) == 3 and ( parts[0] == "jgi" or parts[0] == "kew")
+    except AssertionError:
+      sys.exit("Incorrectly formatted record %s" % record.id)  
     return parts[1]
     
 def join_list(list):
