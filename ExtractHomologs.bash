@@ -25,8 +25,9 @@ do
   if ! test -d augustus_results/${species}_split; then mkdir augustus_results/${species}_split; fi
   for query in `ls Copci1`
   do
-    gene=(echo $query | cut -d. -f 1)
-    echo '>kew|${species}|${gene}' > exonerate_results/${species}_exonerate/${species}_${query}
+    gene=$(echo $query | cut -d. -f 1)
+    echo ">kew|${species}|${gene}" > exonerate_results/${species}_exonerate/${species}_${query}
+    echo ">kew|${species}|${gene}" > augustus_results/${species}_split/${species}_${query}
     exonerate --model protein2genome \
       --bestn 1  \
       --verbose 0 \
@@ -35,10 +36,9 @@ do
       --ryo "%tcs\n" \
       Copci1/$query Assemblies/${species}.fa \
       | perl ../translate.pl \
-      > exonerate_results/${species}_exonerate/${species}_${query}
-    echo '>kew|${species}|${gene}' > augustus_results/${species}_split/${species}_${query}
+      >> exonerate_results/${species}_exonerate/${species}_${query}
     blastdbcmd -db Annotations/${species}.aa \
-      -outfmt %s
+      -outfmt %s \
       -entry_batch <(blastp \
         -query Copci1/$query \
         -db Annotations/${species}.aa \
