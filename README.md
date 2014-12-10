@@ -25,6 +25,10 @@ Prerequisites
 
 -Exonerate (https://www.ebi.ac.uk/~guy/exonerate/index.html)
 
+-Gblocks (http://molevol.cmima.csic.es/castresana/Gblocks.html)
+
+-MAFFT (http://mafft.cbrc.jp/alignment/software/) 
+
 -R (http://www.r-project.org)
 
 -SAMTools (http://samtools.sourceforge.net)

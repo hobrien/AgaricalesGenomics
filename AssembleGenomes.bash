@@ -32,7 +32,7 @@ do
     np=24 \
     k=31 \
     name=Assemblies/${species} \
-    in='Reads/${species}_1.fastq Reads/${species}_2.fastq'
+    in="../Reads/${species}_1.fastq ../Reads/${species}_2.fastq"
 
 done
 
