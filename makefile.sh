@@ -6,7 +6,8 @@ Analyses/AllConcatinatedProt.fa : Mon_ror_scores.txt Con_pu1_scores.txt \
         Ser_laS73_scores.txt Ser_laS79_scores.txt Bae_myo_scores.txt Cal_gam_scores.txt \
         Cla_fum_scores.txt Cli_gib_scores.txt Cli_neb_scores.txt Ent_cly_scores.txt \
         Gym_jun_scores.txt Hyg_con_scores.txt Inocyb_scores.txt Mac_cum_scores.txt \
-        Meg_pla_scores.txt Mycena_scores.txt Pte_sub_scores.txt Tubaria_scores.txt
+        Meg_pla_scores.txt Mycena_scores.txt Pte_sub_scores.txt Tubaria_scores.txt \
+        Guy_ne1_scores.txt
 	bash AlignSeqs.bash
 	python ConcatinateSeqs.py Analyses/Alignments/Gblocks Analyses/AllConcatinatedProt.fa
 
@@ -64,6 +65,8 @@ Pte_sub_scores.txt : Analyses/Copci1 Reads/Pte_sub_1.fastq Reads/Pte_sub_2.fastq
 Tubaria_scores.txt : Analyses/Copci1 Reads/Tubaria_1.fastq Reads/Tubaria_2.fastq
 	export SPECIES=Tubaria; $(MAKE) -C Analyses
 
+Guy_ne1.txt : Analyses/Copci1 Reads/Guy_ne1_1.fastq Reads/Guy_ne1_2.fastq
+	export SPECIES=Guy_ne1; $(MAKE) -C Analyses
 
 #extract Copci1 sequences from each homolog set and write to indvidual files
 Analyses/Copci1 : JGI_210genes_renamed_by_Copci1_gene/Copci1_*.fa
