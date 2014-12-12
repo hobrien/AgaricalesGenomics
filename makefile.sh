@@ -35,7 +35,7 @@ Cla_fum_scores.txt : Analyses/Copci1 Reads/Cla_fum_1.fastq Reads/Cla_fum_2.fastq
 Cli_gib_scores.txt : Analyses/Copci1 Reads/Cli_gib_1.fastq Reads/Cli_gib_2.fastq
 	export SPECIES=Cli_gib; $(MAKE) -C Analyses
 
-Cli_neb_scores.txt : Analyses/Copci1 Reads/Cli_neb_1.fastq Reads/Cli_neb9_2.fastq
+Cli_neb_scores.txt : Analyses/Copci1 Reads/Cli_neb_1.fastq Reads/Cli_neb_2.fastq
 	export SPECIES=Cli_neb; $(MAKE) -C Analyses
 
 Ent_cly_scores.txt : Analyses/Copci1 Reads/Ent_cly_1.fastq Reads/Ent_cly_2.fastq
