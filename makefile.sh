@@ -68,10 +68,10 @@ Tubaria_scores.txt : Analyses/Copci1 Reads/Tubaria_1.fastq Reads/Tubaria_2.fastq
 Guy_ne1.txt : Analyses/Copci1 Reads/Guy_ne1_1.fastq Reads/Guy_ne1_2.fastq
 	export SPECIES=Guy_ne1; $(MAKE) -C Analyses
 
-#extract Copci1 sequences from each homolog set and write to indvidual files
+#extract Copci1 sequences from each homolog set and write to individual files
 Analyses/Copci1 : JGI_210genes_renamed_by_Copci1_gene/Copci1_*.fa
 	python ExtractSeqs.py JGI_210genes_renamed_by_Copci1_gene Copci1 $@
-	touch Copci1
+	touch Analyses/Copci1
 
 
 
