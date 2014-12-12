@@ -9,7 +9,7 @@ import sys, os
 from glob import glob
 from Bio import SeqIO
 
-usage = "ExtractSeqs.py INPUT_FOLDER OUTPUT_FILE"
+usage = "ConcatinateSeqs.py INPUT_FOLDER OUTPUT_FILE"
 
 def main(argv):
   try:
@@ -23,11 +23,10 @@ def main(argv):
   for infile in glob(infolder + '/*.fa'):
     if not sequences:
       for seq_record in SeqIO.parse(infile, "fasta"):
-        seq_record.id = seq_record.id.split('|')[1]
         seq_record.description = ''
         sequences.append(seq_record)
     else:
-      seq_dict = SeqIO.to_dict(SeqIO.parse(infile, "fasta"), key_function=get_species)
+      seq_dict = SeqIO.to_dict(SeqIO.parse(infile, "fasta"))
       seq_len = len(seq_dict.values()[0])
       for seq in sequences:
         try:
@@ -40,17 +39,6 @@ def main(argv):
     
   SeqIO.write(sequences, outfile, 'fasta')
 
-def get_species(record):
-    """"Given a SeqRecord, return the species as a string.
-  
-    e.g. "jgi|Copci|24" -> "Copci"
-    """
-    parts = record.id.split("|")
-    try:
-      assert len(parts) == 3 and ( parts[0] == "jgi" or parts[0] == "kew")
-    except AssertionError:
-      sys.exit("Incorrectly formatted record %s" % record.id)  
-    return parts[1]
     
 def join_list(list):
   if isinstance(list, basestring):

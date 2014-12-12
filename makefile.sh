@@ -10,6 +10,8 @@ Analyses/AllConcatinatedProt.fa : Mon_ror_scores.txt Con_pu1_scores.txt \
         Guy_ne1_scores.txt
 	bash AlignSeqs.bash
 	python ConcatinateSeqs.py Analyses/Alignments/Gblocks Analyses/AllConcatinatedProt.fa
+	python ConvertAln.py -i Analyses/AllConcatinatedProt.fa -f phylip \
+      -o Analyses/Alignments/Phylip/AllConcatinatedProt.phy
 
 Mon_ror_scores.txt : Analyses/Copci1 Reads/Mon_ror_1.fastq Reads/Mon_ror_2.fastq
 	export SPECIES=Mon_ror; $(MAKE) -C Analyses
