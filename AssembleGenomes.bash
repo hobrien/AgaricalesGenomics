@@ -27,12 +27,13 @@ do
     gunzip -c Trimomatic/${species}_2_paired.fastq.gz > Reads/${species}_2.fastq
   fi
   
-  #Assemble genomes (this doesn't appear to be working for some reason)
+  #Assemble genomes
+  cd Assemblies
   abyss-pe \
     np=24 \
     k=31 \
-    name=Assemblies/${species} \
-    in="../Reads/${species}_1.fastq ../Reads/${species}_2.fastq"
-
+    name=${species} \
+    in="../../Reads/${species}_1.fastq ../../Reads/${species}_2.fastq"
+  cd ../
 done
 
