@@ -7,12 +7,9 @@ if ! test -d 'Analyses/all_seqs'; then mkdir 'Analyses/all_seqs'; fi
   
 for gene in `ls JGI_210genes_renamed_by_Copci1_gene`
 do
-  #remove gap characters from reference gene sets
-  cat JGI_210genes_renamed_by_Copci1_gene/$gene | \
-      tr -d - | \ #remove gaps
-      grep -v ^$ | \ #remove blank lines
-      perl StripNames.pl \ #Remove everything except species identifier from sequencer names
-      > Analyses/all_seqs/${gene}
+  #remove gap characters from reference gene sets ( tr -d - ), remove blank lines ( grep -v ^$ )
+  #and remove everything except species identifier from sequencer names (perl StripNames.pl)
+  cat JGI_210genes_renamed_by_Copci1_gene/$gene | tr -d - | grep -v ^$ | perl StripNames.pl > Analyses/all_seqs/${gene}
   
   #add new seqs
   for species in `ls Analyses/best_sequences`
