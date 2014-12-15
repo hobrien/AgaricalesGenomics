@@ -3,11 +3,12 @@ if ! test -d 'best_sequences'; then mkdir 'best_sequences'; fi
 if ! test -d 'Alignments'; then  mkdir 'Alignments'; fi
 if ! test -d 'Alignments/Exonerate'; then mkdir 'Alignments/Exonerate'; fi
 if ! test -d 'Alignments/Augustus'; then mkdir 'Alignments/Augustus'; fi
+if ! test -d 'Scores'; then mkdir 'Scores'; fi
   
 for species in $@
 do
   if ! test -d 'best_sequences/$species'; then mkdir best_sequences/$species; fi
-  `echo "gene, Augustus, Exonerate" > ${species}_scores.txt`
+  `echo "gene, Augustus, Exonerate" > Scores/${species}_scores.txt`
   exonerate_better=0
   augustus_better=0
   identical_score=0
@@ -46,7 +47,7 @@ do
     else
       augustus_score=0
     fi
-    `echo "Copci1_${gene}, $augustus_score, $exonerate_score" >> ${species}_scores.txt`
+    `echo "Copci1_${gene}, $augustus_score, $exonerate_score" >> Scores/${species}_scores.txt`
     if [ "$(echo $augustus_score '>' $exonerate_score | bc -l)" -eq 1 ]
     then
       augustus_better=$(echo $augustus_better + 1 |bc)
