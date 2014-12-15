@@ -3,20 +3,10 @@ if ! test -d 'best_sequences'; then mkdir 'best_sequences'; fi
 if ! test -d 'Alignments'; then  mkdir 'Alignments'; fi
 if ! test -d 'Alignments/Exonerate'; then mkdir 'Alignments/Exonerate'; fi
 if ! test -d 'Alignments/Augustus'; then mkdir 'Alignments/Augustus'; fi
-if test -d 'blastp_augustus_results/Inocybeae_split'
-then
-  mv blastp_augustus_results/Inocybeae_split/ blastp_augustus_results/Inocyb_split/
-fi
-if test -d 'blastp_augustus_results/Clav_fumo_split'
-then
-  mv blastp_augustus_results/Clav_fumo_split/ blastp_augustus_results/Cla_fum_split/
-fi
   
 for species in $@
 do
   if ! test -d 'best_sequences/$species'; then mkdir best_sequences/$species; fi
-  #`./RenameFiles.py blastp_augustus_results/${species}_split`
-  #`./RenameFiles.py exonerate_results/${species}_exonerate`  
   `echo "gene, Augustus, Exonerate" > ${species}_scores.txt`
   exonerate_better=0
   augustus_better=0
