@@ -2,7 +2,12 @@
 
 SHELL=/bin/bash
 
-Analyses/AllConcatinatedProt.fa : Analyses/Mon_ror_scores.txt Analyses/Con_pu1_scores.txt \
+#Run RAxML on all alignments (this is done on the server)
+#Analyses/Trees : Analyses/Alignments/Phylip
+#	bash SubmitAll.bash
+#	touch Analyses/Trees
+
+Analyses/Alignments/Phylip/AllConcatinatedProt.phy : Analyses/Mon_ror_scores.txt Analyses/Con_pu1_scores.txt \
         Analyses/Ser_laS73_scores.txt Analyses/Ser_laS79_scores.txt Analyses/Bae_myo_scores.txt \
         Analyses/Cal_gam_scores.txt Analyses/Cla_fum_scores.txt Analyses/Cli_gib_scores.txt \
         Analyses/Cli_neb_scores.txt Analyses/Ent_cly_scores.txt Analyses/Gym_jun_scores.txt \
@@ -13,6 +18,7 @@ Analyses/AllConcatinatedProt.fa : Analyses/Mon_ror_scores.txt Analyses/Con_pu1_s
 	python ConcatinateSeqs.py Analyses/Alignments/Gblocks Analyses/AllConcatinatedProt.fa
 	python ConvertAln.py -i Analyses/AllConcatinatedProt.fa -f phylip \
       -o Analyses/Alignments/Phylip/AllConcatinatedProt.phy
+    touch Analyses/Alignments/Phylip
 
 Analyses/Mon_ror_scores.txt : Analyses/Copci1 Reads/Mon_ror_1.fastq Reads/Mon_ror_2.fastq
 	export SPECIES=Mon_ror; $(MAKE) -C Analyses

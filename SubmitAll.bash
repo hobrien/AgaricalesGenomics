@@ -1,10 +1,10 @@
-for file in `ls $HOME/Alignments`
+for file in `ls Analyses/Alignments/Phylip`
 do
    if [[ $string == *"AllConcatinatedProt"* ]]
    then
-      qsub -v infile=$file $HOME/shell/RunRaxmlLong.bash
+      qsub -v infile=$file RunRaxmlLong.bash
    else   
-      qsub -v infile=$file $HOME/shell/RunRaxml.bash
+      qsub -v infile=$file RunRaxml.bash
    fi   
 done
 
