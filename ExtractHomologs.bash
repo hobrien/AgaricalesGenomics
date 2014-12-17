@@ -14,8 +14,10 @@ do
   #
   if ! test -f Annotations/${species}.gff
   then
-    augustus --species=coprinus Assemblies/${species}.fa > Annotations/${species}.gff
-    getAnnoFasta.pl Annotations/${species}.gff
+    ssh heath@ubuntu "bin/augustus --species=coprinus \
+      /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Assemblies/${species}.fa >\
+      /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Annotations/${species}.gff"
+    ssh heath@ubuntu "bin/getAnnoFasta.pl /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Annotations/${species}.gff"
   fi
   #Identify homologs
   makeblastdb -dbtype prot -in Annotations/${species}.aa -parse_seqids
@@ -34,7 +36,7 @@ do
       --showalignment no \
       --showvulgar no\
       --ryo "%tcs\n" \
-      Copci1/$query Assemblies/${species}.fa \
+      Copci1/$query Assemblies/${species}-8.fa \
       | perl ../translate.pl \
       >> exonerate_results/${species}_exonerate/${species}_${query}
     blastdbcmd -db Annotations/${species}.aa \
