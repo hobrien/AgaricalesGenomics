@@ -48,6 +48,8 @@ def main(argv):
   if outformat == 'phylip':
     alignment=AlignIO.read(infile, informat, alphabet=IUPAC.ambiguous_dna)
     alignment = remove_blank(alignment)
+    if len(alignment) == 0 or len(alignment[0]) == 0:
+      sys.exit()
     if outfile == 'pipe' or outfile == 'stdout' or outfile == 'STDOUT' or outfile == '|' or outfile == '>':
       write_phylip(alignment, sys.stdout)
     else:
