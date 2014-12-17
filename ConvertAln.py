@@ -2,6 +2,7 @@
 
 
 import sys, getopt
+from Bio.Align import MultipleSeqAlignment
 from Bio import AlignIO
 from Bio.Alphabet import IUPAC
 from Bio.Nexus import Nexus
@@ -46,6 +47,7 @@ def main(argv):
     infile = sys.stdin    
   if outformat == 'phylip':
     alignment=AlignIO.read(infile, informat, alphabet=IUPAC.ambiguous_dna)
+    alignment = remove_blank(alignment)
     if outfile == 'pipe' or outfile == 'stdout' or outfile == 'STDOUT' or outfile == '|' or outfile == '>':
       write_phylip(alignment, sys.stdout)
     else:
@@ -94,6 +96,13 @@ def get_extension(format):
   elif format == "nexus": extension = "nex"  
   else: sys.exit("format not recognized! Please select one of 'clustalw', 'fasta', 'fastq', 'genbank', 'nexus', 'phylip' or 'xmfa'")
   return extension
+  
+def remove_blank(alignment):
+  sequences = []
+  for seq in alignment:
+    if len(seq.seq.ungap(gap='-')) > 0:
+      sequences.append(seq)
+  return MultipleSeqAlignment(sequences)    
   
 if __name__ == "__main__":
   if sys.argv[1] == 'self-test':
