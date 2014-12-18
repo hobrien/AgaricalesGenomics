@@ -83,5 +83,12 @@ Analyses/Copci1 : JGI_210genes_renamed_by_Copci1_gene/Copci1_*.fa
 	python ExtractSeqs.py JGI_210genes_renamed_by_Copci1_gene Copci1 $@
 	touch Analyses/Copci1
 
-
+clean :
+	for file in `ls Analyses`; \
+	do \
+	  if [[ $$file != makefile.sh && $$file != README.md ]]; \
+	  then \
+	    rm -r $$file; \
+	  fi; \
+	done
 
