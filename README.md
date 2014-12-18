@@ -3,6 +3,12 @@ AgaricalesGenomics
 
 Scripts and data used for the analyses presented in Tales from the crypt: "Genome mining from fungarium specimens to identify low copy loci for phylogenomics of the Agaricales"
 
+Instructions
+------------
+
+-Modify config.mk with login info for virtual machine and cluster
+-Make ensure that public ssh key is shared with cluster and VM so that no password is required (see http://www.linuxproblem.org/art_9.html)
+-Type make
 
 Prerequisites
 -------------
