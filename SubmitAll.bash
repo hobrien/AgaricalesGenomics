@@ -1,11 +1,11 @@
 for file in `ls Phylip`
 do
-   if [[ $string == *"AllConcatinatedProt"* ]]
+   if [[ $file == *"AllConcatinatedProt"* ]]
    then
-      qsub -v infile=$file RunRaxmlLong.bash
-      qsub -v infile=$file RunRaxmlPartition.bash
+      qsub -v infile=$file shell/RunRaxmlLong.bash
+      qsub -v infile=$file shell/RunRaxmlPartition.bash
    else   
-      qsub -v infile=$file RunRaxml.bash
+      qsub -v infile=$file shell/RunRaxml.bash
    fi   
 done
 
