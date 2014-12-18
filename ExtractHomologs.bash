@@ -6,18 +6,13 @@ do
   #  virtual box.
   #  Setup instructions are here: http://www.lecloud.net/post/52224625343/the-ultimate-setup-guide-ubuntu-13-04-in-virtualbox
   #
-  #  The command here needs to be changed to the following:
-  #  ssh heath@ubuntu bash -c "'augustus --species=coprinus \
-  #  /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Assemblies/${species}.fa \
-  #  > /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Annotations/${species}.gff; \
-  #  getAnnoFasta.pl /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Annotations/${species}.gff'"
-  #
   if ! test -f Annotations/${species}.gff
   then
-    ssh heath@ubuntu "bin/augustus --species=coprinus \
-      /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Assemblies/${species}.fa >\
-      /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Annotations/${species}.gff"
-    ssh heath@ubuntu "bin/getAnnoFasta.pl /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Annotations/${species}.gff"
+    ssh heath@ubuntu "/home/heath/Documents/augustus/bin/augustus --species=coprinus \
+        /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Assemblies/${species}-scaffolds.fa >\
+        /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Annotations/${species}.gff"
+    ssh heath@ubuntu "/home/heath/Documents/augustus/scripts/getAnnoFasta.pl \
+        /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Annotations/${species}.gff"
   fi
   #Identify homologs
   makeblastdb -dbtype prot -in Annotations/${species}.aa -parse_seqids
@@ -36,7 +31,7 @@ do
       --showalignment no \
       --showvulgar no\
       --ryo "%tcs\n" \
-      Copci1/$query Assemblies/${species}-8.fa \
+      Copci1/$query Assemblies/${species}-scaffolds.fa \
       | perl ../translate.pl \
       >> exonerate_results/${species}_exonerate/${species}_${query}
     blastdbcmd -db Annotations/${species}.aa \
