@@ -2,10 +2,13 @@
 
 SHELL=/bin/bash
 
+include config.mk
+
 #Run RAxML on all alignments (this is done on the server)
-#Analyses/Trees : Analyses/Alignments/Phylip
-#	bash SubmitAll.bash
-#	touch Analyses/Trees
+Analyses/Trees : Analyses/Alignments/Phylip/*
+	export $(CLUSTER)
+	bash BuildTrees.bash
+	touch Analyses/Trees
 
 Analyses/Alignments/Phylip/AllConcatinatedProt.phy : Analyses/Scores/Mon_ror_scores.txt Analyses/Scores/Con_pu1_scores.txt \
         Analyses/Scores/Ser_laS73_scores.txt Analyses/Scores/Ser_laS79_scores.txt Analyses/Scores/Bae_myo_scores.txt \
