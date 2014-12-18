@@ -20,6 +20,7 @@ def main(argv):
   
 
   sequences = []
+  counter = 0
   for infile in glob(infolder + '/*.fa'):
     if '6661' in infile:
       continue  #This is a hack because we've decided to exclude this gene from the combined analysis
@@ -27,6 +28,7 @@ def main(argv):
       for seq_record in SeqIO.parse(infile, "fasta"):
         seq_record.description = ''
         sequences.append(seq_record)
+        seq_len = len(seq_record.seq)
     else:
       seq_dict = SeqIO.to_dict(SeqIO.parse(infile, "fasta"))
       seq_len = len(seq_dict.values()[0])
@@ -38,6 +40,8 @@ def main(argv):
           seq.seq += '-' * seq_len
       if len(seq_dict) > 0:
         sys.exit("Error! Sequences for %s are present in %s but not in concatinated alignment" % (join_list(seq_dict.keys()), infile))
+    print "WAG, %s = %i-%i" % (os.path.basename(infile).split('.')[0], counter + 1, counter+seq_len)
+    counter += seq_len
     
   SeqIO.write(sequences, outfile, 'fasta')
 

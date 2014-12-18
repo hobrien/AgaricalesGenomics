@@ -15,7 +15,7 @@ Analyses/Alignments/Phylip/AllConcatinatedProt.phy : Analyses/Scores/Mon_ror_sco
         Analyses/Scores/Meg_pla_scores.txt Analyses/Scores/Mycena_scores.txt Analyses/Scores/Pte_sub_scores.txt \
         Analyses/Scores/Tubaria_scores.txt Analyses/Scores/Guy_ne1_scores.txt
 	bash AlignSeqs.bash
-	python ConcatinateSeqs.py Analyses/Alignments/Gblocks Analyses/AllConcatinatedProt.fa 
+	python ConcatinateSeqs.py Analyses/Alignments/Gblocks Analyses/AllConcatinatedProt.fa > Analyses/partitions.txt
 	python ConvertAln.py -i Analyses/AllConcatinatedProt.fa -f phylip -o Analyses/Alignments/Phylip/AllConcatinatedProt.phy
 	touch Analyses/Alignments/Phylip
 
