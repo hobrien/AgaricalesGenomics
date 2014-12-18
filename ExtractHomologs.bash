@@ -8,10 +8,10 @@ do
   #
   if ! test -f Annotations/${species}.gff
   then
-    ssh heath@ubuntu "/home/heath/Documents/augustus/bin/augustus --species=coprinus \
+    ssh $VM "/home/heath/Documents/augustus/bin/augustus --species=coprinus \
         /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Assemblies/${species}-scaffolds.fa >\
         /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Annotations/${species}.gff"
-    ssh heath@ubuntu "/home/heath/Documents/augustus/scripts/getAnnoFasta.pl \
+    ssh $VM "/home/heath/Documents/augustus/scripts/getAnnoFasta.pl \
         /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Annotations/${species}.gff"
   fi
   #Identify homologs

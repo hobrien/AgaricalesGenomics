@@ -6,8 +6,7 @@ include config.mk
 
 #Run RAxML on all alignments (this is done on the server)
 Analyses/Trees : Analyses/Alignments/Phylip/*
-	export $(CLUSTER)
-	bash BuildTrees.bash
+	export CLUSTER=$(CLUSTER) USER=$(USER); bash BuildTrees.bash
 	touch Analyses/Trees
 
 Analyses/Alignments/Phylip/AllConcatinatedProt.phy : Analyses/Scores/Mon_ror_scores.txt Analyses/Scores/Con_pu1_scores.txt \
