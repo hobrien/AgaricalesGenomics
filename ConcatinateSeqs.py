@@ -21,6 +21,8 @@ def main(argv):
 
   sequences = []
   for infile in glob(infolder + '/*.fa'):
+    if '6661' in infile:
+      continue  #This is a hack because we've decided to exclude this gene from the combined analysis
     if not sequences:
       for seq_record in SeqIO.parse(infile, "fasta"):
         seq_record.description = ''
