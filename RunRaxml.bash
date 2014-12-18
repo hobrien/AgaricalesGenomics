@@ -5,6 +5,5 @@
 
 module load apps/RAxML-7.2.8-pthreads
 raxml-pthreads -T 4 -f a -m PROTGAMMAWAG -p 12345 -x 12345 -N autoMRE \
-    -n $infile -w Analyses/Trees \
-    -s Analyses/Alignments/Phylip/${infile} \
-    #-o Con_pu1,Ser_laS73,Ser_laS79
+    -n $infile -w Trees \
+    -s Phylip/${infile} 
