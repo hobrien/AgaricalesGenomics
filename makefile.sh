@@ -12,7 +12,7 @@ all : Analyses/Blobology/Bae_myo_phylum.png Analyses/Blobology/Cal_gam_phylum.pn
       Analyses/Blobology/Inocyb_phylum.png Analyses/Blobology/Mac_cum_phylum.png \
       Analyses/Blobology/Meg_pla_phylum.png Analyses/Blobology/Mon_ror_phylum.png \
       Analyses/Blobology/Mycena_phylum.png Analyses/Blobology/Pte_sub_phylum.png \
-      Analyses/Blobology/Tubaria_phylum.png
+      Analyses/Blobology/Tubaria_phylum.png Analyses/Alignments/Phylip/AllConcatinatedProt.phy
 
 Analyses/Blobology/%_phylum.png : Species/% Analyses/Assemblies/%-scaffolds.fa
 	bash Blobology.bash $(<F)
@@ -34,62 +34,8 @@ Analyses/Alignments/Phylip/AllConcatinatedProt.phy : Analyses/Scores/Mon_ror_sco
 	python ConvertAln.py -i Analyses/AllConcatinatedProt.fa -f phylip -o Analyses/Alignments/Phylip/AllConcatinatedProt.phy
 	touch Analyses/Alignments/Phylip
 
-Analyses/Scores/Mon_ror_scores.txt : Analyses/Copci1 Reads/Mon_ror_1.fastq Reads/Mon_ror_2.fastq
-	export SPECIES=Mon_ror; $(MAKE) -C Analyses
-
-Analyses/Scores/Con_pu1_scores.txt : Analyses/Copci1 Reads/Con_pu1_1.fastq Reads/Con_pu1_2.fastq
-	export SPECIES=Con_pu1; $(MAKE) -C Analyses
-
-Analyses/Scores/Ser_laS73_scores.txt : Analyses/Copci1 Reads/Ser_laS73_1.fastq Reads/Ser_laS73_2.fastq
-	export SPECIES=Ser_laS73; $(MAKE) -C Analyses
-
-Analyses/Scores/Ser_laS79_scores.txt : Analyses/Copci1 Reads/Ser_laS79_1.fastq Reads/Ser_laS79_2.fastq
-	export SPECIES=Ser_laS79; $(MAKE) -C Analyses
-
-Analyses/Scores/Bae_myo_scores.txt : Analyses/Copci1 Reads/Bae_myo_1.fastq Reads/Bae_myo_2.fastq
-	export SPECIES=Bae_myo; $(MAKE) -C Analyses
-
-Analyses/Scores/Cal_gam_scores.txt : Analyses/Copci1 Reads/Cal_gam_1.fastq Reads/Cal_gam_2.fastq
-	export SPECIES=Cal_gam; $(MAKE) -C Analyses
-
-Analyses/Scores/Cla_fum_scores.txt : Analyses/Copci1 Reads/Cla_fum_1.fastq Reads/Cla_fum_2.fastq
-	export SPECIES=Cla_fum; $(MAKE) -C Analyses
-
-Analyses/Scores/Cli_gib_scores.txt : Analyses/Copci1 Reads/Cli_gib_1.fastq Reads/Cli_gib_2.fastq
-	export SPECIES=Cli_gib; $(MAKE) -C Analyses
-
-Analyses/Scores/Cli_neb_scores.txt : Analyses/Copci1 Reads/Cli_neb_1.fastq Reads/Cli_neb_2.fastq
-	export SPECIES=Cli_neb; $(MAKE) -C Analyses
-
-Analyses/Scores/Ent_cly_scores.txt : Analyses/Copci1 Reads/Ent_cly_1.fastq Reads/Ent_cly_2.fastq
-	export SPECIES=Ent_cly; $(MAKE) -C Analyses
-
-Analyses/Scores/Gym_jun_scores.txt : Analyses/Copci1 Reads/Gym_jun_1.fastq Reads/Gym_jun_2.fastq
-	export SPECIES=Ser_laS79; $(MAKE) -C Analyses
-
-Analyses/Scores/Hyg_con_scores.txt : Analyses/Copci1 Reads/Hyg_con_1.fastq Reads/Hyg_con_2.fastq
-	export SPECIES=Hyg_con; $(MAKE) -C Analyses
-
-Analyses/Scores/Inocyb_scores.txt : Analyses/Copci1 Reads/Inocyb_1.fastq Reads/Inocyb_2.fastq
-	export SPECIES=Inocyb; $(MAKE) -C Analyses
-
-Analyses/Scores/Mac_cum_scores.txt : Analyses/Copci1 Reads/Mac_cum_1.fastq Reads/Mac_cum_2.fastq
-	export SPECIES=Mac_cum; $(MAKE) -C Analyses
-
-Analyses/Scores/Meg_pla_scores.txt : Analyses/Copci1 Reads/Meg_pla_1.fastq Reads/Meg_pla_2.fastq
-	export SPECIES=Meg_pla; $(MAKE) -C Analyses
-
-Analyses/Scores/Mycena_scores.txt : Analyses/Copci1 Reads/Mycena_1.fastq Reads/Mycena_2.fastq
-	export SPECIES=Mycena; $(MAKE) -C Analyses
-
-Analyses/Scores/Pte_sub_scores.txt : Analyses/Copci1 Reads/Pte_sub_1.fastq Reads/Pte_sub_2.fastq
-	export SPECIES=Pte_sub; $(MAKE) -C Analyses
-
-Analyses/Scores/Tubaria_scores.txt : Analyses/Copci1 Reads/Tubaria_1.fastq Reads/Tubaria_2.fastq
-	export SPECIES=Tubaria; $(MAKE) -C Analyses
-
-Analyses/Scores/Guy_ne1_scores.txt : Analyses/Copci1 Reads/Guy_ne1_1.fastq Reads/Guy_ne1_2.fastq
-	export SPECIES=Guy_ne1; $(MAKE) -C Analyses
+Analyses/Scores/%_scores.txt : Species/% Analyses/Copci1 Reads/%_1.fastq Reads/%_2.fastq
+	export SPECIES=$(<F); $(MAKE) -C Analyses
 
 #extract Copci1 sequences from each homolog set and write to individual files
 Analyses/Copci1 : JGI_210genes_renamed_by_Copci1_gene/Copci1_*.fa
