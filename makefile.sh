@@ -4,9 +4,17 @@ SHELL=/bin/bash
 
 include config.mk
 
+
+all : Analyses/Blobology/Bae_myo_phylum.png  Analyses/Blobology/Cli_neb_phylum.png \
+      Analyses/Blobology/Ent_cly_phylum.png Analyses/Blobology/Mon_ror_phylum.png \
+      Analyses/Blobology/Gym_jun_phylum.png Analyses/Blobology/Hygag_phylum.png
+
+Analyses/Blobology/%_phylum.png : Species/% Analyses/Assemblies/%-scaffolds.fa
+	bash Blobology.bash $(<F)
+
 #Run RAxML on all alignments (this is done on the server)
 Analyses/Trees : Analyses/Alignments/Phylip/*
-	export CLUSTER=$(CLUSTER) USER=$(USER); bash BuildTrees.bash
+	#export CLUSTER=$(CLUSTER) USER=$(USER); bash BuildTrees.bash
 	touch Analyses/Trees
 
 Analyses/Alignments/Phylip/AllConcatinatedProt.phy : Analyses/Scores/Mon_ror_scores.txt Analyses/Scores/Con_pu1_scores.txt \
