@@ -1,19 +1,5 @@
 for species in $@
 do
-  #Annotate contigs
-  #
-  #  I was not able to install augustus on my system (OSX 10.9), so I am running it thru
-  #  virtual box.
-  #  Setup instructions are here: http://www.lecloud.net/post/52224625343/the-ultimate-setup-guide-ubuntu-13-04-in-virtualbox
-  #
-  if ! test -f Annotations/${species}.gff
-  then
-    ssh $VM "/home/heath/Documents/augustus/bin/augustus --species=coprinus \
-        /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Assemblies/${species}-scaffolds.fa >\
-        /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Annotations/${species}.gff"
-    ssh $VM "/home/heath/Documents/augustus/scripts/getAnnoFasta.pl \
-        /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Annotations/${species}.gff"
-  fi
   #Identify homologs
   makeblastdb -dbtype prot -in Annotations/${species}.aa -parse_seqids
   if ! test -d exonerate_results; then mkdir exonerate_results; fi

@@ -34,6 +34,15 @@ Analyses/Alignments/Phylip/AllConcatinatedProt.phy : Analyses/Scores/Mon_ror_sco
 Analyses/Scores/%_scores.txt : Species/% Analyses/Copci1 Analyses/Assemblies/%-scaffolds.fa
 	export SPECIES=$(<F); $(MAKE) -C Analyses
 
+Analyses/Annotation/%.aa : Species/% Analyses/Annotations/%.gff
+	ssh $VM "/home/heath/Documents/augustus/scripts/ \
+        /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Annotations/$(<F).gff"
+
+Analyses/Annotations/%.gff : Species/% Analyses/Copci1 Analyses/Assemblies/%-scaffolds.fa
+	 ssh $VM "/home/heath/Documents/augustus/bin/augustus --species=coprinus \
+        /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Assemblies/$(<F)-scaffolds.fa >\
+        /mnt/Bioinformatics/Mushrooms/AgaricalesGgetAnnoFasta.plenomics/Analyses/Annotations/$(<F).gff"
+
 Analyses/Blobology/%_phylum.png : Species/% Analyses/Assemblies/%-scaffolds.fa 
 	bash Blobology.bash $(<F)
 
@@ -71,9 +80,6 @@ cookies :
 	curl https://signon.jgi.doe.gov/signon/create --data-ascii login=$(JGI_SIGNON)\&password=$(JGI_PASSWORD) \
        -b cookies -c cookies > /dev/null
 ##########################################################################################
-
-
-
 
 #extract Copci1 sequences from each homolog set and write to individual files
 Analyses/Copci1 : JGI_210genes_renamed_by_Copci1_gene/Copci1_*.fa
