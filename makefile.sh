@@ -5,9 +5,14 @@ SHELL=/bin/bash
 include config.mk
 
 
-all : Analyses/Blobology/Bae_myo_phylum.png  Analyses/Blobology/Cli_neb_phylum.png \
-      Analyses/Blobology/Ent_cly_phylum.png Analyses/Blobology/Mon_ror_phylum.png \
-      Analyses/Blobology/Gym_jun_phylum.png Analyses/Blobology/Hygag_phylum.png
+all : Analyses/Blobology/Bae_myo_phylum.png Analyses/Blobology/Cal_gam_phylum.png \
+      Analyses/Blobology/Cla_fum_phylum.png Analyses/Blobology/Cli_gib_phylum.png \
+      Analyses/Blobology/Cli_neb_phylum.png Analyses/Blobology/Ent_cly_phylum.png \
+      Analyses/Blobology/Gym_jun_phylum.png Analyses/Blobology/Hyg_con_phylum.png \
+      Analyses/Blobology/Inocyb_phylum.png Analyses/Blobology/Mac_cum_phylum.png \
+      Analyses/Blobology/Meg_pla_phylum.png Analyses/Blobology/Mon_ror_phylum.png \
+      Analyses/Blobology/Mycena_phylum.png Analyses/Blobology/Pte_sub_phylum.png \
+      Analyses/Blobology/Tubaria_phylum.png
 
 Analyses/Blobology/%_phylum.png : Species/% Analyses/Assemblies/%-scaffolds.fa
 	bash Blobology.bash $(<F)
