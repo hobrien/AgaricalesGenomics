@@ -17,6 +17,10 @@ all : Analyses/Blobology/Bae_myo_phylum.png Analyses/Blobology/Cal_gam_phylum.pn
 Analyses/Blobology/%_phylum.png : Species/% Analyses/Assemblies/%-scaffolds.fa
 	bash Blobology.bash $(<F)
 
+Analyses/Assemblies/%-scaffolds.fa Species/% Reads/%_1.fastq Reads/%_2.fastq
+	bash ../AssembleGenomes.bash $(<F)
+	touch $@
+	
 #Run RAxML on all alignments (this is done on the server)
 Analyses/Trees : Analyses/Alignments/Phylip/*
 	#export CLUSTER=$(CLUSTER) USER=$(USER); bash BuildTrees.bash

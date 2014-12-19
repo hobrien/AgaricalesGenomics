@@ -12,8 +12,3 @@ augustus_results/$(SPECIES)_split exonerate_results/$(SPECIES)_exonerate: Assemb
 	export VM=$(VM); bash ../ExtractHomologs.bash $(SPECIES)
 	touch $@
 
-#Assemble genomes
-Assemblies/$(SPECIES)-scaffolds.fa : ../Reads/$(SPECIES)_1.fastq ../Reads/$(SPECIES)_2.fastq
-	bash ../AssembleGenomes.bash $(SPECIES)
-	touch $@
-
