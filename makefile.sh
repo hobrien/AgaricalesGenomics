@@ -19,8 +19,37 @@ Analyses/Blobology/%_phylum.png : Species/% Analyses/Assemblies/%-scaffolds.fa
 
 Analyses/Assemblies/%-scaffolds.fa Species/% Reads/%_1.fastq Reads/%_2.fastq
 	bash ../AssembleGenomes.bash $(<F)
-	touch $@
-	
+
+##########################################################################################
+#Download JGI data for species not included in original gene family analysis
+Analyses/Assemblies/Con_pu1-scaffolds.fa Analyses/Annotations/Con_pu1.aa : cookies
+	curl http://genome.jgi.doe.gov/Conpu1/download/Conpu1_AssemblyScaffolds.fasta.gz \
+       -b cookies -c cookies |zcat > Analyses/Assemblies/Con_pu1-scaffolds.fa
+	curl http://genome.jgi.doe.gov/Conpu1/download/Conpu1_GeneCatalog_proteins_20101116.aa.fasta.gz \
+       -b cookies -c cookies |zcat > Analyses/Annotations/Con_pu1.aa
+
+Analyses/Assemblies/Guy_ne1-scaffolds.fa Analyses/Annotations/Guy_ne1.aa : cookies
+	curl http://genome.jgi.doe.gov/Guyne1/download/Guyne1_AssemblyScaffolds.fasta.gz \
+       -b cookies -c cookies |zcat > Analyses/Assemblies/Guy_ne1-scaffolds.fa
+	curl http://genome.jgi.doe.gov/Guyne1/download/Guyne1_GeneCatalog_proteins_20140406.aa.fasta.gz \
+       -b cookies -c cookies |zcat > Analyses/Annotations/Guy_ne1.aa
+
+Analyses/Assemblies/Ser_la73-scaffolds.fa Analyses/Annotations/Ser_la73.aa : cookies
+	curl http://genome.jgi.doe.gov/SerlaS7_3_2/download/Serpula_lacrymans_S7_3_v2.unmasked.fasta.gz \
+       -b cookies -c cookies |zcat > Analyses/Assemblies/Ser_la73-scaffolds.fa
+	curl http://genome.jgi.doe.gov/SerlaS7_3_2/download/Serpula_lacrymans_S7_3_v2.proteins.fasta.gz \
+       -b cookies -c cookies |zcat > Analyses/Annotations/Ser_la73.aa
+
+Analyses/Assemblies/Ser_la79-scaffolds.fa Analyses/Annotations/Ser_la79.aa : cookies
+	curl http://genome.jgi.doe.gov/SerlaS7_9_2/download/SerlaS7_9_2_AssemblyScaffolds.fasta.gz \
+       -b cookies -c cookies |zcat > Analyses/Assemblies/Ser_la79-scaffolds.fa
+	curl http://genome.jgi.doe.gov/SerlaS7_9_2/download/SerlaS7_9_2_GeneCatalog_proteins_20120319.aa.fasta.gz \
+       -b cookies -c cookies |zcat > Analyses/Annotations/Ser_la79.aa
+
+cookies :
+	curl https://signon.jgi.doe.gov/signon/create --data-ascii login=$(JGI_SIGNON)\&password=$(JGI_PASSWORD) -b cookies -c cookies > /dev/null
+##########################################################################################
+
 #Run RAxML on all alignments (this is done on the server)
 Analyses/Trees : Analyses/Alignments/Phylip/*
 	#export CLUSTER=$(CLUSTER) USER=$(USER); bash BuildTrees.bash
