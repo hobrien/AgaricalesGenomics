@@ -9,8 +9,7 @@ status=0
 while [ $status -lt 1 ]
 do
   sleep 3600
-  status=$(ssh $CLUSTER qstat |grep "ho13001.* [RQ] " >status.txt; echo $?;)
+  status=$(ssh $CLUSTER qstat |grep "ho13001.* [RQ] " > /dev/null; echo $?;)
   echo "waiting..."
 done
-rm status.txt
 scp -r $CLUSTER:Trees Analyses/
