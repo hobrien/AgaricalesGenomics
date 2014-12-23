@@ -47,7 +47,7 @@ Analyses/Blobology/%_phylum.png : Species/% Analyses/Assemblies/%-scaffolds.fa
 	bash Blobology.bash $(<F)
 
 Analyses/Assemblies/%-scaffolds.fa : Species/% Reads/%_1.fastq Reads/%_2.fastq
-	bash ../AssembleGenomes.bash $(<F)
+	bash AssembleGenomes.bash $(<F)
 
 
 ##########################################################################################

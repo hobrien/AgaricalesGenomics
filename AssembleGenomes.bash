@@ -1,8 +1,8 @@
 for species in $@
 do
   #create all necessary folders
-  for folder in Assemblies Annotations exonerate_results \
-    exonerate_results/${species}_exonerate augustus_results augustus_results/${species}_split
+  for folder in Analyses/Assemblies Analyses/Annotations Analyses/exonerate_results \
+    Analyses/exonerate_results/${species}_exonerate Analyses/augustus_results Analyses/augustus_results/${species}_split
   do
      if ! test -d $folder
     then
@@ -28,7 +28,7 @@ do
   fi
   
   #Assemble genomes
-  cd Assemblies
+  cd Analyses/Assemblies
   abyss-pe \
     np=24 \
     k=31 \
