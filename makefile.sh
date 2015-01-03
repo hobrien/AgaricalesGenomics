@@ -31,17 +31,17 @@ Analyses/Alignments/Phylip/AllConcatinatedProt.phy : Analyses/Scores/Mon_ror_sco
 	python ConvertAln.py -i Analyses/AllConcatinatedProt.fa -f phylip -o Analyses/Alignments/Phylip/AllConcatinatedProt.phy
 	touch Analyses/Alignments/Phylip
 
-Analyses/Scores/%_scores.txt : Species/% Analyses/Copci1 Analyses/Assemblies/%-scaffolds.fa
+Analyses/Scores/%_scores.txt : Species/% Analyses/Copci1 Analyses/Annotation/%.aa
 	export SPECIES=$(<F); $(MAKE) -C Analyses
 
 Analyses/Annotation/%.aa : Species/% Analyses/Annotations/%.gff
-	ssh $VM "/home/heath/Documents/augustus/scripts/ \
+	ssh $(VM) "/home/heath/Documents/augustus/scripts/getAnnoFasta.pl \
         /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Annotations/$(<F).gff"
 
 Analyses/Annotations/%.gff : Species/% Analyses/Copci1 Analyses/Assemblies/%-scaffolds.fa
-	 ssh $VM "/home/heath/Documents/augustus/bin/augustus --species=coprinus \
-        /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Assemblies/$(<F)-scaffolds.fa >\
-        /mnt/Bioinformatics/Mushrooms/AgaricalesGgetAnnoFasta.plenomics/Analyses/Annotations/$(<F).gff"
+	 ssh $(VM) "/home/heath/Documents/augustus/bin/augustus --species=coprinus \
+        /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Assemblies/$(<F)-scaffolds.fa \
+        >/mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Annotations/$(<F).gff"
 
 Analyses/Blobology/%_phylum.png : Species/% Analyses/Assemblies/%-scaffolds.fa 
 	bash Blobology.bash $(<F)
