@@ -21,16 +21,18 @@ def main(argv):
 
   sequences = []
   counter = 0
-  for infile in glob(infolder + '/*.fa'):
+  #for infile in glob(infolder + '/*.phy'):
+  for infile in sys.stdin.readlines():
+    infile = os.path.join(infolder, infile.strip())
     if '6661' in infile:
       continue  #This is a hack because we've decided to exclude this gene from the combined analysis
     if not sequences:
-      for seq_record in SeqIO.parse(infile, "fasta"):
+      for seq_record in SeqIO.parse(infile, "phylip-relaxed"):
         seq_record.description = ''
         sequences.append(seq_record)
         seq_len = len(seq_record.seq)
     else:
-      seq_dict = SeqIO.to_dict(SeqIO.parse(infile, "fasta"))
+      seq_dict = SeqIO.to_dict(SeqIO.parse(infile, "phylip-relaxed"))
       seq_len = len(seq_dict.values()[0])
       for seq in sequences:
         try:
@@ -43,7 +45,7 @@ def main(argv):
     print "WAG, %s = %i-%i" % (os.path.basename(infile).split('.')[0], counter + 1, counter+seq_len)
     counter += seq_len
     
-  SeqIO.write(sequences, outfile, 'fasta')
+  SeqIO.write(sequences, outfile, 'phylip-relaxed')
 
     
 def join_list(list):

@@ -16,9 +16,11 @@ all : Analyses/Blobology/Bae_myo_phylum.png Analyses/Blobology/Cal_gam_phylum.pn
 
 #Run RAxML on all alignments (this is done on the server)
 Analyses/Trees : Analyses/Alignments/Phylip/*
-	#export CLUSTER=$(CLUSTER) USER=$(USER); bash BuildTrees.bash
+	export CLUSTER=$(CLUSTER) USER=$(USER); bash BuildTrees.bash
 	touch Analyses/Trees
 
+##########################################################################################
+#Align Seqs, trim, and concatinate
 Analyses/Alignments/Phylip/AllConcatinatedProt.phy : Analyses/Scores/Mon_ror_scores.txt Analyses/Scores/Con_pu1_scores.txt \
         Analyses/Scores/Ser_laS73_scores.txt Analyses/Scores/Ser_laS79_scores.txt Analyses/Scores/Bae_myo_scores.txt \
         Analyses/Scores/Cal_gam_scores.txt Analyses/Scores/Cla_fum_scores.txt Analyses/Scores/Cli_gib_scores.txt \
@@ -31,21 +33,29 @@ Analyses/Alignments/Phylip/AllConcatinatedProt.phy : Analyses/Scores/Mon_ror_sco
 	python ConvertAln.py -i Analyses/AllConcatinatedProt.fa -f phylip -o Analyses/Alignments/Phylip/AllConcatinatedProt.phy
 	touch Analyses/Alignments/Phylip
 
+##########################################################################################
+#Run Exonerate, then compare Exonerate and Augustus output using Needle
 Analyses/Scores/%_scores.txt : Species/% Analyses/Copci1 Analyses/Annotation/%.aa
 	export SPECIES=$(<F); $(MAKE) -C Analyses
 
+##########################################################################################
+#Run Augustus (in Virtual Box) and obtain predicted AA seqs
 Analyses/Annotation/%.aa : Species/% Analyses/Annotations/%.gff
 	ssh $(VM) "/home/heath/Documents/augustus/scripts/getAnnoFasta.pl \
-        /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Annotations/$(<F).gff"
+        /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Annotations/$(<F).aa"
 
 Analyses/Annotations/%.gff : Species/% Analyses/Copci1 Analyses/Assemblies/%-scaffolds.fa
 	 ssh $(VM) "/home/heath/Documents/augustus/bin/augustus --species=coprinus \
         /mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Assemblies/$(<F)-scaffolds.fa \
         >/mnt/Bioinformatics/Mushrooms/AgaricalesGenomics/Analyses/Annotations/$(<F).gff"
 
+##########################################################################################
+#Run blobology to examine contamination in assemblies
 Analyses/Blobology/%_phylum.png : Species/% Analyses/Assemblies/%-scaffolds.fa 
 	bash Blobology.bash $(<F)
 
+##########################################################################################
+#Run assembly for new genomes
 Analyses/Assemblies/%-scaffolds.fa : Species/% Reads/%_1.fastq Reads/%_2.fastq
 	bash AssembleGenomes.bash $(<F)
 

@@ -16,8 +16,8 @@ do
   do
     gene=$(echo $file |cut -d'_' -f2)
     gene=$(echo $gene |cut -d'.' -f1)
-    #Align Exonerate sequence and extract the score (set score = 0 if no sequence)
-    #If duplicate sequences are present, only consider the first
+#Align Exonerate sequence and extract the score (set score = 0 if no sequence)
+#If duplicate sequences are present, only consider the first
     exonerate_file=$(ls exonerate_results/${species}_exonerate |grep ${species}_Copci1_${gene}[_.] |head -1)
     exonerate_file=exonerate_results/${species}_exonerate/${exonerate_file}
     if test -f $exonerate_file
@@ -25,14 +25,13 @@ do
       seqname=$(echo $exonerate_file |cut -d'.' -f1 |cut -d'/' -f 3)  
       if ! test -f "Alignments/Exonerate/$seqname.needle"
       then 
-        #echo "needle -gapopen 10 -gapextend 0.5 -outfile Alignments/Exonerate/$seqname.needle exonerate_results/${species}_exonerate/$file Copci1/Copci1_${gene}.fa"
         `needle -gapopen 10 -gapextend 0.5 -outfile Alignments/Exonerate/$seqname.needle $exonerate_file Copci1/Copci1_${gene}.fa`
       fi
       exonerate_score=$(grep Score Alignments/Exonerate/$seqname.needle | cut -d' ' -f 3 | tail -1)
     else
       exonerate_score=0
     fi
-    #Align Augustus sequence and extract the score (set score = 0 if no sequence)
+#Align Augustus sequence and extract the score (set score = 0 if no sequence)
     augustus_file=augustus_results/${species}_split/${species}_Copci1_${gene}.fa
     if test -f $augustus_file
     then
@@ -47,6 +46,7 @@ do
     else
       augustus_score=0
     fi
+#Compare Exonerate and Augustus scores and write highest scoring seq to file
     `echo "Copci1_${gene}, $augustus_score, $exonerate_score" >> Scores/${species}_scores.txt`
     if [ "$(echo $augustus_score '>' $exonerate_score | bc -l)" -eq 1 ]
     then
